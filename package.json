@@ -1,0 +1,24 @@
+{
+  "name": "chat-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "start:prod": "node server.js",
+    "swagger": "node ./src/utils/swagger.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.1.7",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1",
+    "ws": "^8.18.0"
+  }
+}
