@@ -42,13 +42,13 @@ exports.getGroupMessages = catchAsync(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default: page 1
   const limit = parseInt(req.query.limit) || 20; // Default: 20 messages
   const offset = (page - 1) * limit;
-  // // Check if the group exists
-  // const groupExists = await db("groups")
-  //   .where({ group_name: groupName })
-  //   .first();
-  // if (!groupExists) {
-  //   return next(new AppError("Group does not exist", 404));
-  // }
+  // Check if the group exists
+  const groupExists = await db("groups")
+    .where({ group_name: groupName })
+    .first();
+  if (!groupExists) {
+    return next(new AppError("Group does not exist", 404));
+  }
   const messages = await db("messages")
     .where({ group_name: groupName })
     .orderBy("timestamp", "desc") // Latest first
