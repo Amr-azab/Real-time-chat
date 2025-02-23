@@ -30,7 +30,9 @@ WebSocket-based chat system with private messaging and group chat functionality.
 
 ```bash
 git clone https://github.com/Amr-azab/Real-time-chat.git
-cd chat-system
+```
+```bash
+cd Real-time-chat
 ```
 
 2. Install dependencies:
