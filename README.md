@@ -9,6 +9,7 @@ WebSocket-based chat system with private messaging and group chat functionality.
 - Message history storage (SQLite) – All messages are saved in a database for later access.
 - REST API endpoints – Provides API routes to manage users, groups, and messages.
 - WebSocket real-time communication – Enables instant message delivery without page refresh.
+- User Presence Status: Show online users
 
 ## Tech Stack
 
