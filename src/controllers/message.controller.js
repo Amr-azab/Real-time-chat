@@ -8,13 +8,17 @@ const { sendError, sendSuccess } = require("../utils/sendWebSocket");
 // Get private messages for a user
 exports.getPrivateMessages = catchAsync(async (req, res, next) => {
   const { username } = req.params;
+  const page = parseInt(req.query.page) || 1; // Default: page 1
+  const limit = parseInt(req.query.limit) || 20; // Default: 20 messages
+  const offset = (page - 1) * limit;
   const messages = await db("messages")
     .where(function () {
       this.where({ receiver: username }).orWhere({ sender: username });
     })
     .andWhere("group_name", null)
     .orderBy("timestamp", "desc")
-    .limit(20);
+    .offset(offset)
+    .limit(limit);
   // Get the total count of private messages
   const totalMessages = await db("messages")
     .where(function () {
@@ -23,12 +27,21 @@ exports.getPrivateMessages = catchAsync(async (req, res, next) => {
     .andWhere("group_name", null)
     .count("id as count")
     .first();
-  res.json({ success: true, totalMessages: totalMessages.count, messages });
+  res.json({
+    success: true,
+    totalMessages: totalMessages.count,
+    page,
+    limit,
+    messages,
+  });
 });
 
 // =============== Get messages from a group
 exports.getGroupMessages = catchAsync(async (req, res, next) => {
   const { groupName } = req.params;
+  const page = parseInt(req.query.page) || 1; // Default: page 1
+  const limit = parseInt(req.query.limit) || 20; // Default: 20 messages
+  const offset = (page - 1) * limit;
   // Check if the group exists
   const groupExists = await db("groups")
     .where({ group_name: groupName })
@@ -39,12 +52,19 @@ exports.getGroupMessages = catchAsync(async (req, res, next) => {
   const messages = await db("messages")
     .where({ group_name: groupName })
     .orderBy("timestamp", "desc") // Latest first
-    .limit(20); // Limit messages
+    .offset(offset)
+    .limit(limit);
   const totalMessages = await db("messages")
     .where({ group_name: groupName })
     .count("id as count")
     .first();
-  res.json({ success: true, totalMessages: totalMessages.count, messages });
+  res.json({
+    success: true,
+    totalMessages: totalMessages.count,
+    page,
+    limit,
+    messages,
+  });
 });
 
 // =============== WebSocket - Message Management
