@@ -22,7 +22,7 @@ exports.up = function (knex) {
       table.string("receiver").nullable(); // Nullable for group messages
       table.string("group_name").nullable(); // Nullable for private messages
       table.text("message").notNullable();
-      table.timestamp("timestamp").defaultTo(knex.fn.now());
+      table.datetime("timestamp").defaultTo(knex.fn.now());
     })
     .createTable("group_members", (table) => {
       table.increments("id").primary();
